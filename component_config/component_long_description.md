@@ -1,0 +1,1 @@
+This component allows you to fetch data from the Public endpoints of the eHUB marketing service
