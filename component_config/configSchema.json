@@ -2,18 +2,25 @@
   "type": "object",
   "title": "extractor configuration",
   "required": [
-    "print_hello"
+    "fetch_campaigns",
+    "fetch_vouchers"
   ],
   "properties": {
-    "print_hello": {
+    "fetch_campaigns": {
       "type": "boolean",
-      "title": "Print Hello",
-      "propertyOrder": 1
+      "title": "Fetch Campaigns",
+      "description": "Fetch all public campaign data",
+      "propertyOrder": 10,
+      "format": "checkbox",
+      "default": true
     },
-    "debug": {
+    "fetch_vouchers": {
       "type": "boolean",
-      "title": "Debug",
-      "propertyOrder": 2
+      "title": "Fetch Vouchers",
+      "description": "Fetch all public voucher data",
+      "propertyOrder": 20,
+      "format": "checkbox",
+      "default": true
     }
   }
 }

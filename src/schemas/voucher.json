@@ -1,0 +1,14 @@
+{
+  "name": "voucher",
+  "description": "",
+  "primary_keys": [
+    "id"
+  ],
+  "fields": [
+    {
+      "name": "id",
+      "description": "",
+      "base_type": "STRING"
+    }
+  ]
+}

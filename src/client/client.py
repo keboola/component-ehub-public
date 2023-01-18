@@ -6,6 +6,7 @@ BASE_URL = "https://api.ehub.cz/v3/"
 PUBLIC_ENDPOINT = "public"
 
 CAMPAIGN_LIST_ENDPOINT = "campaigns"
+VOUCHER_LIST_ENDPOINT = "vouchers"
 
 DEFAULT_PAGE_SIZE = 50
 
@@ -21,13 +22,18 @@ class EHubClient(HttpClient):
     def get_public_campaigns(self):
         endpoint_path = f"{PUBLIC_ENDPOINT}/{CAMPAIGN_LIST_ENDPOINT}"
         parameters = {"perPage": DEFAULT_PAGE_SIZE, "page": 1}
-        return self._paginate_endpoint(endpoint_path, parameters)
+        return self._paginate_endpoint(endpoint_path, parameters, "campaigns")
 
-    def _paginate_endpoint(self, endpoint, parameters):
+    def get_public_vouchers(self):
+        endpoint_path = f"{PUBLIC_ENDPOINT}/{VOUCHER_LIST_ENDPOINT}"
+        parameters = {"perPage": DEFAULT_PAGE_SIZE, "page": 1}
+        return self._paginate_endpoint(endpoint_path, parameters, "vouchers")
+
+    def _paginate_endpoint(self, endpoint, parameters, object_name):
         has_more = True
         while has_more:
             response = self._get_endpoint(endpoint, parameters)
-            yield response.get("campaigns")
+            yield response.get(object_name)
             if response.get("totalItems") <= parameters.get("page") * 50:
                 has_more = False
             parameters["page"] += 1

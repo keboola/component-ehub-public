@@ -1,34 +1,20 @@
 eHUB Public Extractor
 =============
 
-Description
+eHub is an Internet marketing service. It is used for affiliate marketing
+
+This component allows you to fetch data from the Public endpoints of the eHUB marketing service
 
 **Table of contents:**
 
 [TOC]
 
-Functionality notes
-===================
-
-Prerequisites
-=============
-
-Get the API token, register application, etc.
-
-Features
-========
-
-| **Feature**             | **Note**                                      |
-|-------------------------|-----------------------------------------------|
-| Generic UI form         | Dynamic UI form                               |
-| Row Based configuration | Allows structuring the configuration in rows. |
-| oAuth                   | oAuth authentication enabled                  |
-| Incremental loading     | Allows fetching data in new increments.       |
-| Backfill mode           | Support for seamless backfill setup.          |
-| Date range filter       | Specify date range.                           |
 
 Supported endpoints
 ===================
+
+* Campaigns
+* Vouchers
 
 If you need more endpoints, please submit your request to
 [ideas.keboola.com](https://ideas.keboola.com/)
@@ -36,11 +22,23 @@ If you need more endpoints, please submit your request to
 Configuration
 =============
 
-Param 1
--------
+##extractor configuration
 
-Param 2
--------
+- Fetch Campaigns (fetch_campaigns) - [REQ] boolean value , if true component will fetch all public campaign data
+- Fetch Vouchers (fetch_vouchers) - [REQ] boolean value , if true component will fetch all public voucher data
+
+Sample Configuration
+=============
+
+```json
+{
+  "parameters": {
+    "fetch_campaigns": true,
+    "fetch_vouchers": true
+  },
+  "action": "run"
+}
+```
 
 Output
 ======
@@ -50,8 +48,8 @@ List of tables, foreign keys, schema.
 Development
 -----------
 
-If required, change local data folder (the `CUSTOM_FOLDER` placeholder) path to
-your custom path in the `docker-compose.yml` file:
+If required, change local data folder (the `CUSTOM_FOLDER` placeholder) path to your custom path in
+the `docker-compose.yml` file:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     volumes:
@@ -59,12 +57,9 @@ your custom path in the `docker-compose.yml` file:
       - ./CUSTOM_FOLDER:/data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Clone this repository, init the workspace and run the component with following
-command:
+Clone this repository, init the workspace and run the component with following command:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-git clone https://bitbucket.org/kds_consulting_team/kds-team.ex-ehub-public/src/master/ kds-team.ex-ehub-public
-cd kds-team.ex-ehub-public
 docker-compose build
 docker-compose run --rm dev
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -79,5 +74,4 @@ Integration
 ===========
 
 For information about deployment and integration with KBC, please refer to the
-[deployment section of developers
-documentation](https://developers.keboola.com/extend/component/deployment/)
+[deployment section of developers documentation](https://developers.keboola.com/extend/component/deployment/)
