@@ -21,6 +21,39 @@
       "propertyOrder": 20,
       "format": "checkbox",
       "default": true
+    },
+    "destination_settings": {
+      "title": "Destination",
+      "type": "object",
+      "propertyOrder": 50,
+      "properties": {
+        "flatten_campaigns": {
+          "type": "boolean",
+          "title": "Flatten Campaigns",
+          "description": "If set, campaign data will be flatten by the commissions, each commission being its own row",
+          "propertyOrder": 10,
+          "format": "checkbox",
+          "default": true
+        },
+        "load_mode": {
+          "type": "string",
+          "required": true,
+          "enum": [
+            "full_load",
+            "incremental_load"
+          ],
+          "options": {
+            "enum_titles": [
+              "Full Load",
+              "Incremental Load"
+            ]
+          },
+          "default": "incremental_load",
+          "title": "Load Mode",
+          "description": "If Full load is used, the destination table will be overwritten every run. If incremental load is used, data will be upserted into the destination table. Tables with a primary key will have rows updated, tables without a primary key will have rows appended.",
+          "propertyOrder": 20
+        }
+      }
     }
   }
 }

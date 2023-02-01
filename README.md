@@ -26,6 +26,12 @@ Configuration
 
 - Fetch Campaigns (fetch_campaigns) - [REQ] boolean value , if true component will fetch all public campaign data
 - Fetch Vouchers (fetch_vouchers) - [REQ] boolean value , if true component will fetch all public voucher data
+- Destination (destination_settings)
+    - Flatten Campaigns (flatten_campaigns) - [REQ] boolean value , if true campaign data will by flattened by
+      commissions
+    - Load Mode (load_mode) - [REQ] - If Full load is used, the destination table will be overwritten every run. If
+      incremental load is used, data will be upserted into the destination table. Tables with a primary key will have
+      rows updated, tables without a primary key will have rows appended.
 
 Sample Configuration
 =============
@@ -34,7 +40,11 @@ Sample Configuration
 {
   "parameters": {
     "fetch_campaigns": true,
-    "fetch_vouchers": true
+    "fetch_vouchers": true,
+    "destination_settings": {
+      "flatten_campaigns": true,
+      "load_mode": "full_load"
+    }
   },
   "action": "run"
 }
