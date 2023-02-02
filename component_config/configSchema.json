@@ -27,14 +27,6 @@
       "type": "object",
       "propertyOrder": 50,
       "properties": {
-        "flatten_campaigns": {
-          "type": "boolean",
-          "title": "Flatten Campaigns",
-          "description": "If set, campaign data will be flatten by the commissions, each commission being its own row",
-          "propertyOrder": 10,
-          "format": "checkbox",
-          "default": true
-        },
         "load_mode": {
           "type": "string",
           "required": true,

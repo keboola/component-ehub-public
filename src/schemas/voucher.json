@@ -1,5 +1,5 @@
 {
-  "name": "voucher",
+  "name": "public_voucher",
   "description": "",
   "primary_keys": [
     "id",

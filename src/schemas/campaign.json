@@ -1,66 +1,18 @@
 {
-  "name": "campaign",
+  "name": "public_campaign",
   "description": "",
   "primary_keys": [
     "id"
   ],
   "fields": [
-    {
-      "name": "id",
-      "description": "",
-      "base_type": "STRING"
-    },
-     {
-      "name": "categories",
-      "description": "",
-      "base_type": "STRING"
-    },
-     {
-      "name": "description",
-      "description": "",
-      "base_type": "STRING"
-    },
-     {
-      "name": "name",
-      "description": "",
-      "base_type": "STRING"
-    },
-     {
-      "name": "web",
-      "description": "",
-      "base_type": "STRING"
-    },
-     {
-      "name": "commissionGroups",
-      "description": "",
-      "base_type": "STRING"
-    },
-     {
-      "name": "commissionDescription",
-      "description": "",
-      "base_type": "STRING"
-    }
-    ,
-     {
-      "name": "averageAmount",
-      "description": "",
-      "base_type": "STRING"
-    }
-    ,
-     {
-      "name": "cookieLifetime",
-      "description": "",
-      "base_type": "STRING"
-    },
-     {
-      "name": "logoUrl",
-      "description": "",
-      "base_type": "STRING"
-    },
-     {
-      "name": "hasFeed",
-      "description": "",
-      "base_type": "STRING"
-    }
+    {"name": "id", "description": "", "base_type": "STRING"},
+    {"name": "name", "description": "", "base_type": "STRING"},
+    {"name": "description", "description": "", "base_type": "STRING"},
+{"name": "commissionDescription", "description": "", "base_type": "STRING"},
+{"name": "averageAmount", "description": "", "base_type": "STRING"},
+{"name": "hasFeed", "description": "", "base_type": "STRING"},
+{"name": "cookieLifetime", "description": "", "base_type": "STRING"},
+{"name": "web", "description": "", "base_type": "STRING"},
+{"name": "logoUrl", "description": "", "base_type": "STRING"}
   ]
 }

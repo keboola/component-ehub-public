@@ -7,6 +7,8 @@ from keboola.component.exceptions import UserException
 
 from client import EHubClient, EHubClientException
 
+from json_parser_multi import MulitCsvJsonParser
+
 # configuration variables
 KEY_FETCH_CAMPAIGNS = "fetch_campaigns"
 KEY_FETCH_VOUCHERS = "fetch_vouchers"
@@ -14,12 +16,13 @@ KEY_FETCH_VOUCHERS = "fetch_vouchers"
 KEY_DESTINATION = "destination_settings"
 KEY_LOAD_MODE = "load_mode"
 
-KEY_FLATTEN_CAMPAIGNS = "flatten_campaigns"
 DEFAULT_LOAD_MODE = "incremental_load"
 
 REQUIRED_PARAMETERS = [KEY_FETCH_CAMPAIGNS, KEY_FETCH_VOUCHERS]
 REQUIRED_IMAGE_PARS = []
 
+
+# TODO ERROR HANDLING
 
 class Component(ComponentBase):
 
@@ -42,11 +45,7 @@ class Component(ComponentBase):
         fetch_campaigns = params.get(KEY_FETCH_CAMPAIGNS)
         fetch_vouchers = params.get(KEY_FETCH_VOUCHERS)
 
-        flatten_campaigns = destination_settings.get(KEY_FLATTEN_CAMPAIGNS)
-
-        if fetch_campaigns and flatten_campaigns:
-            self.fetch_and_write_flattened_campaigns()
-        elif fetch_campaigns:
+        if fetch_campaigns:
             self.fetch_and_write_campaigns()
         if fetch_vouchers:
             self.fetch_and_write_vouchers()
@@ -58,18 +57,16 @@ class Component(ComponentBase):
         for page in self.client.get_public_vouchers():
             self._get_result_writer("voucher").writerows(page)
 
-    def fetch_and_write_flattened_campaigns(self):
-        self._initialize_result_writer("flattened_campaign")
-        for page in self.client.get_public_campaigns():
-            parsed_data = []
-            for campaign in page:
-                parsed_data.extend(self._parse_campaign(campaign))
-            self._get_result_writer("flattened_campaign").writerows(parsed_data)
-
     def fetch_and_write_campaigns(self):
         self._initialize_result_writer("campaign")
+        self._initialize_result_writer("campaign_categories")
+        self._initialize_result_writer("campaign_commission_groups")
+        parser = MulitCsvJsonParser(dont_parse_list=['commissions'])
         for page in self.client.get_public_campaigns():
-            self._get_result_writer("campaign").writerows(page)
+            parsed = parser.parse_data(page, "campaign")
+            self._get_result_writer("campaign").writerows(parsed["campaign"])
+            self._get_result_writer("campaign_categories").writerows(parsed["categories"])
+            self._get_result_writer("campaign_commission_groups").writerows(parsed["commissionGroups"])
 
     def _initialize_result_writer(self, object_name: str) -> None:
         if object_name not in self.result_writers:
@@ -88,23 +85,6 @@ class Component(ComponentBase):
             writer.close()
             table_definition.columns = copy.deepcopy(writer.fieldnames)
             self.write_manifest(table_definition)
-
-    @staticmethod
-    def _parse_campaign(campaign_data):
-        parsed_campaign_data = []
-        base_data = copy.deepcopy(campaign_data)
-        base_data.pop("commissionGroups")
-        base_data["categories"] = ", ".join([category["name"] for category in base_data["categories"]])
-        for commission_group in campaign_data["commissionGroups"]:
-            for commissions in commission_group["commissions"]:
-                new_row = copy.deepcopy(base_data)
-                new_row["commissionGroupName"] = commission_group.get("name")
-                new_row["commissionType"] = commissions.get("commissionType")
-                new_row["commissionValueType"] = commissions.get("valueType")
-                new_row["commissionValue"] = commissions.get("value")
-                new_row["commissionName"] = commissions.get("name")
-                parsed_campaign_data.append(new_row)
-        return parsed_campaign_data
 
 
 """
