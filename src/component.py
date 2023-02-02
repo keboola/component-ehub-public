@@ -53,11 +53,13 @@ class Component(ComponentBase):
         self._close_all_result_writers()
 
     def fetch_and_write_vouchers(self):
+        logging.info("Fetching public voucher data")
         self._initialize_result_writer("voucher")
         for page in self.client.get_public_vouchers():
             self._get_result_writer("voucher").writerows(page)
 
     def fetch_and_write_campaigns(self):
+        logging.info("Fetching public campaign data")
         self._initialize_result_writer("campaign")
         self._initialize_result_writer("campaign_categories")
         self._initialize_result_writer("campaign_commission_groups")
